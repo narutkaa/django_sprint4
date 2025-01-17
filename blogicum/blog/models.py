@@ -5,7 +5,6 @@ from core.models import PublishedModel
 
 User = get_user_model()
 
-
 class Location(PublishedModel):
     """Местоположение."""
 
@@ -21,7 +20,6 @@ class Location(PublishedModel):
     def __str__(self) -> str:
         name = str(self.name)
         return name[:20]
-
 
 class Category(PublishedModel):
     """Категория."""
@@ -46,7 +44,6 @@ class Category(PublishedModel):
     def __str__(self) -> str:
         title = str(self.title)
         return title[:20]
-
 
 class Post(PublishedModel):
     """Публикация."""
@@ -96,7 +93,6 @@ class Post(PublishedModel):
     def __str__(self) -> str:
         title = str(self.title)
         return title[:20]
-
 
 class Comment(PublishedModel):
     """Комментарий."""
