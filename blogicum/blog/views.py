@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from .models import Post, Category, Comment, User
 from .forms import PostForm, ProfileEditForm, CommentForm
 
+
 def get_posts(post_objects):
     """Посты из БД."""
     return post_objects.filter(
@@ -15,11 +16,13 @@ def get_posts(post_objects):
         category__is_published=True
     ).annotate(comment_count=Count('comments'))
 
+
 def get_paginator(request, items, num=10):
     """Создает объект пагинации."""
     paginator = Paginator(items, num)
     num_pages = request.GET.get('page')
     return paginator.get_page(num_pages)
+
 
 def index(request):
     """Главная страница."""
@@ -28,6 +31,7 @@ def index(request):
     page_obj = get_paginator(request, post_list)
     context = {'page_obj': page_obj}
     return render(request, template, context)
+
 
 def post_detail(request, post_id):
     """Полное описание выбранной записи."""
@@ -40,6 +44,7 @@ def post_detail(request, post_id):
     context = {'post': posts, 'form': form, 'comments': comments}
     return render(request, template, context)
 
+
 def category_posts(request, category_slug):
     """Публикация категории."""
     template = 'blog/category.html'
@@ -49,6 +54,7 @@ def category_posts(request, category_slug):
     page_obj = get_paginator(request, post_list)
     context = {'category': category, 'page_obj': page_obj}
     return render(request, template, context)
+
 
 @login_required
 def create_post(request):
@@ -66,6 +72,7 @@ def create_post(request):
     context = {'form': form}
     return render(request, template, context)
 
+
 def profile(request, username):
     """Возвращает профиль пользователя."""
     template = 'blog/profile.html'
@@ -78,6 +85,7 @@ def profile(request, username):
     page_obj = get_paginator(request, posts_list)
     context = {'profile': user, 'page_obj': page_obj}
     return render(request, template, context)
+
 
 @login_required
 def edit_profile(request):
@@ -92,6 +100,7 @@ def edit_profile(request):
         form = ProfileEditForm(instance=request.user)
     context = {'form': form}
     return render(request, template, context)
+
 
 @login_required
 def edit_post(request, post_id):
@@ -111,6 +120,7 @@ def edit_post(request, post_id):
     context = {'form': form}
     return render(request, template, context)
 
+
 @login_required
 def delete_post(request, post_id):
     """Удаляет запись блога."""
@@ -127,6 +137,7 @@ def delete_post(request, post_id):
     context = {'form': form}
     return render(request, template, context)
 
+
 @login_required
 def add_comment(request, post_id):
     """Добавляет комментарий к записи."""
@@ -138,6 +149,7 @@ def add_comment(request, post_id):
         comment.author = request.user
         comment.save()
     return redirect('blog:post_detail', post_id)
+
 
 @login_required
 def edit_comment(request, post_id, comment_id):
@@ -155,6 +167,7 @@ def edit_comment(request, post_id, comment_id):
         form = CommentForm(instance=comment)
     context = {'form': form, 'comment': comment}
     return render(request, template, context)
+
 
 @login_required
 def delete_comment(request, post_id, comment_id):

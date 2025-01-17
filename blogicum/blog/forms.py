@@ -2,6 +2,7 @@ from django import forms
 
 from .models import Post, User, Comment
 
+
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
@@ -11,6 +12,7 @@ class PostForm(forms.ModelForm):
                 format='%Y-%m-%d %H:%M', attrs={'type': 'datetime-local'}
             )
         }
+
 
 class ProfileEditForm(forms.ModelForm):
     class Meta:
